@@ -1,4 +1,4 @@
-
+### 依存関係を整理
 ```
 go mod tidy
 ```
@@ -10,10 +10,11 @@ $ go version
 ```
 
 ### Docker
-
 ```
 docker compose up -d
 ```
+localhost:8080
+- Adminer
 
 ### 必要なGoパッケージをインストール
 
