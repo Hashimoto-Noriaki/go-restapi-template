@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"  # MySQLのポート
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql  # 永続化用
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d  # 初期化スクリプト用
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # MySQLのrootユーザーのパスワード
+      MYSQL_DATABASE: template # デフォルトのデータベース名
+      MYSQL_USER: templateUser # デフォルトのユーザー名
+      MYSQL_PASSWORD: templatePassword # ユーザーのパスワード
+    restart: always
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"  # AdminerのWebインターフェースポート
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql  # Adminerが接続するデータベースサーバー名
+    depends_on:
+      - mysql  # AdminerがMySQLに依存して起動順を管理
