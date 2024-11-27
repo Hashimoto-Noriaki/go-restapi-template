@@ -1,3 +1,10 @@
+# golang docker REST API のボイラーテンプレート
+
+### 技術構成
+- Go
+- Gin
+- GORM
+
 ### 依存関係を整理
 ```
 go mod tidy
