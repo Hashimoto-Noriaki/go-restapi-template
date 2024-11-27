@@ -4,6 +4,9 @@
 - Go
 - Gin
 - GORM
+- MySQL
+- Adminer
+- JWT
 
 ### Docker
 ```
@@ -17,6 +20,9 @@ localhost:8080
 go run main.go
 ```
 
+### GORM特徴
+ロールバック、シーディング、カラム削除機能がない
+
 ### 依存関係を整理
 ```
 go mod tidy
@@ -26,6 +32,11 @@ go mod tidy
 ```
 $ go version
 1.23.1
+```
+
+### マイグレーション実行
+```
+go run app/db/migrations/migration.go
 ```
 
 ### 必要なGoパッケージをインストール
