@@ -39,6 +39,10 @@ $ go version
 go run app/db/migrations/migration.go
 ```
 
+### 静的解析ツール
+- golangci-int
+- GitHubActions
+
 ### 必要なGoパッケージをインストール
 
 ```
