@@ -5,6 +5,18 @@
 - Gin
 - GORM
 
+### Docker
+```
+docker compose up -d
+```
+localhost:8080
+- Adminer
+
+### サーバー起動
+```
+go run main.go
+```
+
 ### 依存関係を整理
 ```
 go mod tidy
@@ -15,13 +27,6 @@ go mod tidy
 $ go version
 1.23.1
 ```
-
-### Docker
-```
-docker compose up -d
-```
-localhost:8080
-- Adminer
 
 ### 必要なGoパッケージをインストール
 
