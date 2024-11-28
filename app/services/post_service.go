@@ -7,6 +7,7 @@ import (
 
 type PostService interface {
 	FindAll() (*[]models.Post, error)
+	FindById(postId int) (*models.Post, error)
 }
 
 type postService struct {
@@ -19,4 +20,8 @@ func NewPostService(repository repositories.PostRepository) PostService {
 
 func (s *postService) FindAll() (*[]models.Post, error) {
 	return s.repository.FindAll()
+}
+
+func (s *postService) FindById(postId int) (*models.Post, error) {
+    return s.repository.FindById(postId)
 }
