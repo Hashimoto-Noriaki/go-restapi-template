@@ -30,5 +30,5 @@ func main() {
 	r := gin.Default()
 	r.GET("/posts", postController.FindAll) // PostControllerのFindAllメソッドをルートに割り当て
 
-	r.Run("localhost:8081") // サーバーを8080番ポートで実行
+	r.Run("localhost:8081") // サーバーを8081番ポートで実行
 }
