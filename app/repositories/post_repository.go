@@ -10,6 +10,7 @@ type PostRepository interface {
 	FindById(postId uint) (*models.Post, error)
 	Create(post models.Post) (*models.Post, error)
 	Update(updatePost models.Post)(*models.Post,error)
+	Delete(postId uint) error
 }
 
 type PostMemoryRepository struct {
@@ -47,4 +48,14 @@ func (r *PostMemoryRepository) Update(updatePost models.Post)(*models.Post,error
 		}
 	}
 	return nil, errors.New("Unexpected error")
+}
+
+func (r *PostMemoryRepository) Delete(postId uint) error {
+	for i,v := range r.posts {
+		if v.ID == postId {
+			r.posts = append(r.posts[:i], r.posts[i+1:]...)
+			return nil
+		}
+	}
+	return errors.New("Post not found")
 }

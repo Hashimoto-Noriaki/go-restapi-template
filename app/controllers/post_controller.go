@@ -14,6 +14,7 @@ type PostControllerInterface interface {
 	FindById(ctx *gin.Context)
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
+	Delete(ctx *gin.Context)
 }
 
 type PostController struct {
@@ -96,4 +97,25 @@ func (c *PostController) Update(ctx *gin.Context) {
         return
     }
     ctx.JSON(http.StatusOK, gin.H{"data": updatedPost})
+}
+
+func (c *PostController) Delete(ctx *gin.Context) {
+    // URL パラメータ "id" を取得
+    postId, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+    if err != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid id"})
+        return 
+    }
+
+    // postId を渡す
+    err = c.service.Delete(uint(postId))  // 修正: itemId → postId
+    if err != nil {
+        if err.Error() == "Post not found" {
+            ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+            return
+        }
+        ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unexpected error"})
+        return
+    }
+    ctx.Status(http.StatusOK)
 }
