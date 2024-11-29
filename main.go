@@ -29,6 +29,9 @@ func main() {
 	// Ginのルーターをセットアップ
 	r := gin.Default()
 	r.GET("/posts", postController.FindAll)
-	r.GET("/posts/:id", postController.FindById)
-	r.Run("localhost:8081") // サーバーを8081番ポートで実行
+	r.GET("/posts/:id", postController.FindByID) 
+	r.POST("/posts", postController.Create)
+	r.PUT("/posts/:id",postController.Update)
+	r.DELETE("/posts/:id",postController.Delete)
+	//r.Run("localhost:8081") // サーバーを8081番ポートで実行
 }
