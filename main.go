@@ -31,5 +31,6 @@ func main() {
 	r.GET("/posts", postController.FindAll)
 	r.GET("/posts/:id", postController.FindById)
 	r.POST("/posts", postController.Create)
+	r.PUT("/posts/:id",postController.Update)
 	r.Run("localhost:8081") // サーバーを8081番ポートで実行
 }
