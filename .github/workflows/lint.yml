@@ -20,7 +20,6 @@ jobs:
       - name: Install golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh
-          # インストール後、正しいパスを指定してgolangci-lintを/usr/local/binに移動
           sudo mv ./bin/golangci-lint /usr/local/bin
 
       # インストールが成功したことを確認（バージョン確認）
@@ -29,4 +28,4 @@ jobs:
 
       # golangci-lintの実行
       - name: Run golangci-lint
-        run: golangci-lint run
+        run: golangci-lint
