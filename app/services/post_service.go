@@ -8,10 +8,10 @@ import (
 
 type PostService interface {
 	FindAll() (*[]models.Post, error)
-	FindById(postId uint) (*models.Post, error)
+	FindByID(postID uint) (*models.Post, error)
 	Create(createPostInput dto.CreatePostInput) (*models.Post, error)
-	Update(postId uint, updatePostInput dto.UpdatePostInput) (*models.Post, error)
-	Delete(postId uint) error
+	Update(postID uint, updatePostInput dto.UpdatePostInput) (*models.Post, error)
+	Delete(postID uint) error
 }
 
 type postService struct {
@@ -27,8 +27,8 @@ func (s *postService) FindAll() (*[]models.Post, error) {
 	return s.repository.FindAll()
 }
 
-func (s *postService) FindById(postId uint) (*models.Post, error) {
-	return s.repository.FindById(postId)
+func (s *postService) FindByID(postID uint) (*models.Post, error) {
+	return s.repository.FindByID(postID)
 }
 
 func (s *postService) Create(createPostInput dto.CreatePostInput) (*models.Post, error) {
@@ -40,9 +40,9 @@ func (s *postService) Create(createPostInput dto.CreatePostInput) (*models.Post,
 }
 
 // Updateメソッドの修正
-func (s *postService) Update(postId uint, updatePostInput dto.UpdatePostInput) (*models.Post, error) {
+func (s *postService) Update(postID uint, updatePostInput dto.UpdatePostInput) (*models.Post, error) {
 	// postId を使って投稿を取得
-	targetPost, err := s.FindById(postId)
+	targetPost, err := s.FindByID(postID)
 	if err != nil {
 		return nil, err
 	}
@@ -67,6 +67,6 @@ func (s *postService) Update(postId uint, updatePostInput dto.UpdatePostInput) (
 }
 
 // Deleteメソッドの追加
-func (s *postService) Delete(postId uint) error {
-	return s.repository.Delete(postId) // 投稿を削除する
+func (s *postService) Delete(postID uint) error {
+	return s.repository.Delete(postID) // 投稿を削除する
 }

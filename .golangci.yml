@@ -1,6 +1,5 @@
 linters:
   enable:
-    - golint   # コードスタイルチェック
     - gocyclo  # サイクロマチック複雑度のチェック
     - govet    # 標準的なGoのバグチェック
     - errcheck # エラーハンドリングの確認
@@ -9,6 +8,7 @@ linters:
   disable:
     - dupl
     - goimports
+    - golint
 
 run:
   timeout: 2m # タイムアウトを設定 (2分)
@@ -17,4 +17,4 @@ issues:
   exclude-rules:
     - text: "error strings should not be capitalized"
       linters:
-        - golint
+        - revive
