@@ -21,6 +21,8 @@ go run main.go
 ```
 
 ### APIの動作確認
+- Postmanを使用
+
 - すべての投稿を取得 (GET /posts)
 ```
 % curl http://localhost:8081/posts
