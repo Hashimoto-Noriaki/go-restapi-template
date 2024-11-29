@@ -31,5 +31,4 @@ func main() {
 	r.GET("/posts", postController.FindAll)
 	r.GET("/posts/:id", postController.FindById)
 	r.POST("/posts", postController.Create)
-	r.Run("localhost:8081")
 }
