@@ -29,7 +29,7 @@ go run main.go
 ```
 - 特定の投稿を取得 (GET /posts/:id)
 ```
-% curl http://localhost:8080/posts/1
+% curl http://localhost:8081/posts/1
 ```
 - 投稿を作成 (POST /posts)
 ```
