@@ -30,5 +30,6 @@ func main() {
 	r := gin.Default()
 	r.GET("/posts", postController.FindAll)
 	r.GET("/posts/:id", postController.FindById)
-	r.Run("localhost:8081") // サーバーを8081番ポートで実行
+	r.POST("/posts", postController.Create)
+	r.Run("localhost:8081")
 }
