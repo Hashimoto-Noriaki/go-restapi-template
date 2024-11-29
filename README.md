@@ -20,6 +20,25 @@ localhost:8080
 go run main.go
 ```
 
+### APIの動作確認
+- すべての投稿を取得 (GET /posts)
+```
+% curl http://localhost:8081/posts
+```
+- 特定の投稿を取得 (GET /posts/:id)
+```
+% curl http://localhost:8080/posts/1
+```
+- 投稿を作成 (POST /posts)
+```
+ % curl -X POST http://localhost:8081/posts \
+-H "Content-Type: application/json" \
+-d '{
+  "Text": "3番目の投稿",
+  "UserID": 3
+}'
+```
+
 ### GORM特徴
 ロールバック、シーディング、カラム削除機能がない
 
