@@ -7,6 +7,9 @@
 - MySQL
 - Adminer
 - JWT
+- golangci-lint
+- GitHubActions
+- Docker
 
 ### Docker
 ```
@@ -61,7 +64,7 @@ go run app/db/migrations/migration.go
 ```
 
 ### 静的解析ツール
-- golangci-int
+- golangci-lint
 - GitHubActions
 
 main.goのrunをコメントアウト(基本linterを走らせる時はrunをコメントアウトする)
