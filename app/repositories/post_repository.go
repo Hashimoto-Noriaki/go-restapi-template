@@ -7,10 +7,10 @@ import (
 
 type PostRepository interface {
 	FindAll() (*[]models.Post, error)
-	FindById(postId uint) (*models.Post, error)
+	FindByID(postID uint) (*models.Post, error)
 	Create(post models.Post) (*models.Post, error)
 	Update(updatePost models.Post)(*models.Post,error)
-	Delete(postId uint) error
+	Delete(postID uint) error
 }
 
 type PostMemoryRepository struct {
@@ -25,9 +25,9 @@ func (r *PostMemoryRepository) FindAll() (*[]models.Post, error) {
 	return &r.posts, nil
 }
 
-func (r *PostMemoryRepository) FindById(postId uint) (*models.Post, error) {
+func (r *PostMemoryRepository) FindByID(postID uint) (*models.Post, error) {
 	for _, v := range r.posts {
-		if uint(v.ID) == postId {
+		if uint(v.ID) == postID {
 			return &v, nil
 		}
 	}
@@ -50,9 +50,9 @@ func (r *PostMemoryRepository) Update(updatePost models.Post)(*models.Post,error
 	return nil, errors.New("Unexpected error")
 }
 
-func (r *PostMemoryRepository) Delete(postId uint) error {
+func (r *PostMemoryRepository) Delete(postID uint) error {
 	for i,v := range r.posts {
-		if v.ID == postId {
+		if v.ID == postID {
 			r.posts = append(r.posts[:i], r.posts[i+1:]...)
 			return nil
 		}
