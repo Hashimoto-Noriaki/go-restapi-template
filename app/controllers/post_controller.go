@@ -1,7 +1,8 @@
 package controllers
 
 import (
-	"go-restapi-boiltertemplate/app/services"
+	"go-restapi-boiltertemplate/app/services" // services をインポート
+	"go-restapi-boiltertemplate/app/dto"
 	"net/http"
 	"strconv"
 
@@ -11,6 +12,7 @@ import (
 type PostControllerInterface interface {
 	FindAll(ctx *gin.Context)
 	FindById(ctx *gin.Context)
+	Create(ctx *gin.Context)
 }
 
 type PostController struct {
@@ -52,4 +54,18 @@ func (c *PostController) FindById(ctx *gin.Context) {
 
 	// 投稿が見つかった場合、データを返す
 	ctx.JSON(http.StatusOK, gin.H{"data": post}) // 修正: post を返す
+}
+
+func (c *PostController) Create(ctx *gin.Context){
+	var input dto.CreatePostInput
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+    newPost, err := c.service.Create(input)
+    if err != nil {
+        ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+    ctx.JSON(http.StatusCreated, gin.H{"data": newPost})
 }
