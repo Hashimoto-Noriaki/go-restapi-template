@@ -64,6 +64,15 @@ go run app/db/migrations/migration.go
 - golangci-int
 - GitHubActions
 
+main.goのrunをコメントアウト(基本linterを走らせる時はrunをコメントアウトする)
+```
+golangci-lint run
+```
+
+- golangciとGitHubActionsの資料
+
+https://qiita.com/Hashimoto-Noriaki/items/e31dc42f2fe13f67c58c
+
 ### 必要なGoパッケージをインストール
 ```
 go mod init todo-app
