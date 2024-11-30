@@ -1,8 +1,7 @@
 package main
 
 import (
-	"time"
-	"go-restapi-boiltertemplate/app/models"
+	"go-restapi-boiltertemplate/app/infra"
 	"go-restapi-boiltertemplate/app/repositories"
 	"go-restapi-boiltertemplate/app/controllers"
 	"go-restapi-boiltertemplate/app/services"
@@ -10,28 +9,33 @@ import (
 )
 
 func main() {
-	// サンプルのPostデータを作成
-	posts := []models.Post{
-		{ID: 1, Text: "最初の投稿", UserID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()},
-		{ID: 2, Text: "2番目の投稿", UserID: 2, CreatedAt: time.Now(), UpdatedAt: time.Now()},
-		{ID: 3, Text: "3番目の投稿", UserID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()},
-	}
+	infra.Initializer()
+	db := infra.SetupDB()
 
-	// PostRepositoryを作成
-	postRepository := repositories.NewPostMemoryRepository(posts)
-	
-	// PostServiceを作成
-	postService := services.NewPostService(postRepository)  // 変数名修正
+	postRepository := repositories.NewPostRepository(db)
+	postService := services.NewPostService(postRepository)
+	postController := controllers.NewPostController(postService)
 
-	// PostControllerを作成
-	postController := controllers.NewPostController(postService)  // 変数名修正
+	authRepository := repositories.NewAuthRepository(db)
+	authService := services.NewAuthService(authRepository)
+	authController := controllers.NewAuthController(authService)
 
 	// Ginのルーターをセットアップ
 	r := gin.Default()
-	r.GET("/posts", postController.FindAll)
-	r.GET("/posts/:id", postController.FindByID) 
-	r.POST("/posts", postController.Create)
-	r.PUT("/posts/:id",postController.Update)
-	r.DELETE("/posts/:id",postController.Delete)
-	//r.Run("localhost:8081") // サーバーを8081番ポートで実行
+
+	postRouter := r.Group("/posts")
+	{
+		postRouter.GET("", postController.FindAll)
+		postRouter.GET("/:id", postController.FindByID)
+		postRouter.POST("", postController.Create)
+		postRouter.PUT("/:id", postController.Update)
+		postRouter.DELETE("/:id", postController.Delete)
+	}
+
+	authRouter := r.Group("/auth")
+	{
+		authRouter.POST("/signup", authController.Signup)
+	}
+
+	r.Run("localhost:8081")// サーバーを8081番ポートで実行
 }
