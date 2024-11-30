@@ -29,10 +29,11 @@ func main() {
 
 	// Ginのルーターをセットアップ
 	r := gin.Default()
-	r.GET("/posts", postController.FindAll)
-	r.GET("/posts/:id", postController.FindByID) 
-	r.POST("/posts", postController.Create)
-	r.PUT("/posts/:id",postController.Update)
-	r.DELETE("/posts/:id",postController.Delete)
+	itemRouter := r.Group("/posts")
+    r.GET("", postController.FindAll) // エンドポイントを追加
+    r.GET("/:id",postController.FindById)
+    r.POST("",postController.Create)
+    r.PUT("/:id",postController.Update)
+    r.DELETE("/:id",postController.Delete)
 	r.Run("localhost:8081") // サーバーを8081番ポートで実行
 }
