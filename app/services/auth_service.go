@@ -3,6 +3,7 @@ package services
 import (
 	"go-restapi-boiltertemplate/app/models"
 	"go-restapi-boiltertemplate/app/repositories"
+	"fmt"
 	"time"
 	"os"
 
@@ -54,9 +55,9 @@ func (s *AuthService) Login(email string, password string) (*string, error){
 	// トークンを返す
 	return token, nil
 }
-func CreateToken(userId uint, email string)(*string, error) {
+func CreateToken(userID uint, email string)(*string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":   userId,
+		"sub":   userID,
 		"email": email,
 		"exp":   time.Now().Add(time.Hour).Unix(),
 	})
