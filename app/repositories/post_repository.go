@@ -1,61 +1,79 @@
 package repositories
 
 import (
-	"go-restapi-boiltertemplate/app/models"
 	"errors"
+	"go-restapi-boiltertemplate/app/models"
+	"gorm.io/gorm"
 )
 
+// PostRepositoryインターフェースの定義
 type PostRepository interface {
 	FindAll() (*[]models.Post, error)
 	FindByID(postID uint) (*models.Post, error)
-	Create(post models.Post) (*models.Post, error)
-	Update(updatePost models.Post)(*models.Post,error)
+	Create(newPost models.Post) (*models.Post, error)
+	Update(updatePost models.Post) (*models.Post, error)
 	Delete(postID uint) error
 }
 
+// PostMemoryRepository構造体の定義
 type PostMemoryRepository struct {
-	posts []models.Post
+	db *gorm.DB
 }
 
-func NewPostMemoryRepository(posts []models.Post) *PostMemoryRepository {
-	return &PostMemoryRepository{posts: posts}
+// NewPostRepository: リポジトリのコンストラクタ
+func NewPostRepository(db *gorm.DB) PostRepository {
+	return &PostMemoryRepository{db: db}
 }
 
+// FindAll: すべての投稿を取得
 func (r *PostMemoryRepository) FindAll() (*[]models.Post, error) {
-	return &r.posts, nil
-}
-
-func (r *PostMemoryRepository) FindByID(postID uint) (*models.Post, error) {
-	for _, v := range r.posts {
-		if uint(v.ID) == postID {
-			return &v, nil
-		}
+	var posts []models.Post
+	result := r.db.Find(&posts)
+	if result.Error != nil {
+		return nil, result.Error
 	}
-	return nil, errors.New("投稿が見つかりません")
+	return &posts, nil
 }
 
-func (r *PostMemoryRepository) Create(post models.Post) (*models.Post, error) {
-	// 新しい投稿を追加
-	r.posts = append(r.posts, post)
+// FindByID: 指定されたIDの投稿を取得
+func (r *PostMemoryRepository) FindByID(postID uint) (*models.Post, error) {
+	var post models.Post
+	result := r.db.First(&post, postID)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, errors.New("投稿が見つかりません")
+		}
+		return nil, result.Error
+	}
 	return &post, nil
 }
 
-func (r *PostMemoryRepository) Update(updatePost models.Post)(*models.Post,error){
-	for i,v := range r.posts {
-		if v.ID == updatePost.ID {
-			r.posts[i] = updatePost
-			return &r.posts[i],nil
-		}
+// Create: 新しい投稿を作成
+func (r *PostMemoryRepository) Create(newPost models.Post) (*models.Post, error) {
+	result := r.db.Create(&newPost)
+	if result.Error != nil {
+		return nil, result.Error
 	}
-	return nil, errors.New("Unexpected error")
+	return &newPost, nil
 }
 
-func (r *PostMemoryRepository) Delete(postID uint) error {
-	for i,v := range r.posts {
-		if v.ID == postID {
-			r.posts = append(r.posts[:i], r.posts[i+1:]...)
-			return nil
-		}
+// Update: 投稿を更新
+func (r *PostMemoryRepository) Update(updatePost models.Post) (*models.Post, error) {
+	result := r.db.Save(&updatePost)
+	if result.Error != nil {
+		return nil, result.Error
 	}
-	return errors.New("Post not found")
+	return &updatePost, nil
+}
+
+// Delete: 指定されたIDの投稿を削除
+func (r *PostMemoryRepository) Delete(postID uint) error {
+	result := r.db.Delete(&models.Post{}, postID)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return errors.New("投稿が見つかりません")
+		}
+		return result.Error
+	}
+	return nil
 }
