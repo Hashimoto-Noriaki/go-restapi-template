@@ -35,6 +35,7 @@ func main() {
 	authRouter := r.Group("/auth")
 	{
 		authRouter.POST("/signup", authController.Signup)
+		authRouter.POST("/login", authController.Login)
 	}
 
 	r.Run("localhost:8081")// サーバーを8081番ポートで実行
