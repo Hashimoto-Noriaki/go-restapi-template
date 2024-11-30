@@ -118,3 +118,21 @@ secret keyを生成
 ```
 openssl rand -base64 32
 ```
+
+GORMドキュメント
+https://gorm.io/ja_JP/docs/index.html#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB
+
+validationのドキュメント
+https://pkg.go.dev/github.com/go-playground/validator/v10#section-readme
+
+Goのgodenv
+https://github.com/joho/godotenv#installation
+
+jwt
+https://github.com/golang-jwt/jwt?tab=readme-ov-file#installation-guidelines
+
+jwt Debbuger
+https://jwt.io/
+
+cors
+https://github.com/gin-contrib/cors
